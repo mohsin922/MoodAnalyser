@@ -11,6 +11,10 @@ namespace MoodAnalyserApp
         {
             this.message = message;
         }
+        public MoodAnalyser() ////Parameterless Constructor
+        {
+
+        }
         public string AnalyseMood()
         {
             try
