@@ -11,7 +11,7 @@ namespace MoodAnalyserApp
         ///<summary>
         ///CreatMoodAnalyser method to create object of MoodAnalyser class.
         /// </summary>
-        public static Object CreateMoodAnalyse(string className, string constructorName)
+        public Object CreateMoodAnalyse(string className, string constructorName)
         {
             string pattern = @"." + constructorName + "$";
             Match result = Regex.Match(className, pattern);
@@ -32,13 +32,13 @@ namespace MoodAnalyserApp
             }
             else
             {
-                throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.NO_SUCH_METHOD, "Constructor is Not Found");
+                throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.METHOD_NOT_FOUND, "Constructor is Not Found");
             }
         }
         ///<summary>
         ///Uc5-For Parameterised Constructor By Passing Message Parameter to the class Method
         /// </summary>
-        public static Object CreateMoodAnalyseUsingParameterisedConstructor(string className, string constructorName, string message)
+        public Object CreateMoodAnalyseUsingParameterisedConstructor(string className, string constructorName, string message)
         {
             Type type = typeof(MoodAnalyser);
             if (type.Name.Equals(className) || type.FullName.Equals(className))
@@ -51,7 +51,7 @@ namespace MoodAnalyserApp
                 }
                 else
                 {
-                    throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.NO_SUCH_METHOD, "Constructor is Not Found");
+                    throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.METHOD_NOT_FOUND, "Constructor is Not Found");
                 }
             }
             else
@@ -60,6 +60,23 @@ namespace MoodAnalyserApp
 
             }
 
+        }
+        public string InvokeAnalyserMethod(string message, string methodName)
+        {
+            try
+            {
+                Type type = typeof(MoodAnalyser);
+
+                MethodInfo methodInfo = type.GetMethod(methodName);
+                MoodAnalyserFactory f = new MoodAnalyserFactory();
+                object moodAnalyserObject = f.CreateMoodAnalyseUsingParameterisedConstructor("MoodAnalyserApp.MoodAnalyser", "MoodAnalyser", message);
+                object info = methodInfo.Invoke(moodAnalyserObject, null);
+                return info.ToString();
+            }
+            catch (NullReferenceException)
+            {
+                throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.METHOD_NOT_FOUND, "Method not found");
+            }
         }
     }
 }

@@ -48,25 +48,113 @@ namespace MoodAnalyserMSTest
         ///TC 4.1: Given MoodAnalyse Class Name Should Return MoodAnalyser Object.
         /// </summary>
         [TestMethod]
-        public void GivenMoodAnalyseClassName_ShouldReturnMoodAnalyserObject()
+        public void Reflection_Return_Default_Constructor()
         {
-            string message = null;
-            object expected = new MoodAnalyser(message);
-            object obj = MoodAnalyserFactory.CreateMoodAnalyse("MoodAnalyserApp.MoodAnalyser", "MoodAnalyser");
-            expected.Equals(obj);
-            //Assert.AreEqual(Expected,obj);
+            MoodAnalyser expected = new MoodAnalyser();
+            object obj = null;
+            try
+            {
+                MoodAnalyserFactory f = new MoodAnalyserFactory();
+                obj = f.CreateMoodAnalyse("MoodAnalyserApp.MoodAnalyser", "MoodAnalyser");
+
+            }
+            catch (MoodAnalyserCustomException ex)
+            {
+                throw new System.Exception(ex.Message);
+            }
         }
-        ///<summary>
-        ///TC 5.1: Given MoodAnalyse Class Name Should Return MoodAnalyser Object.
+        //Neagtive Case
+        [TestMethod]
+        public void Reflection_Return_Default_Constructor_No_Class_Found()
+        {
+            string expected = "Class not found";
+            object obj = null;
+            try
+            {
+                MoodAnalyserFactory f = new MoodAnalyserFactory();
+                obj = f.CreateMoodAnalyse("MoodAnalyserApp.MoodAnalyser", "MoodAnalyser");
+
+            }
+            catch (MoodAnalyserCustomException actual)
+            {
+                Assert.AreEqual(expected, actual.Message);
+            }
+        }
+        //Neagtive Case
+        [TestMethod]
+        public void Reflection_Return_Default_Constructor_No_Constructor_Found()
+        {
+            string expected = "Constructor not found";
+            object obj = null;
+            try
+            {
+                MoodAnalyserFactory f = new MoodAnalyserFactory();
+                obj = f.CreateMoodAnalyse("MoodAnalyserApp.MoodAnalyser", "MoodAnalyser");
+
+            }
+            catch (MoodAnalyserCustomException actual)
+            {
+                Assert.AreEqual(expected, actual.Message);
+            }
+        }
+        /// <summary>
+        /// Using Reflection-UC5-Parameterized Constructor
         /// </summary>
         [TestMethod]
-        public void GivenMoodAnalyseClassName_ShouldReturnMoodAnalyserObject_UsingParameterisedConstructor()
+        public void Reflection_Return_Parameterized_Constructor()
         {
+            string message = "I am in happy mood";
+            MoodAnalyser expected = new MoodAnalyser(message);
+            object actual = null;
+            try
+            {
+                MoodAnalyserFactory f = new MoodAnalyserFactory();
+                actual = f.CreateMoodAnalyseUsingParameterisedConstructor("MoodAnalyserApp.MoodAnalyser", "MoodAnalyser", message);
 
-            object expected = new MoodAnalyser("HAPPY");
-            object obj = MoodAnalyserFactory.CreateMoodAnalyseUsingParameterisedConstructor("MoodAnalyserApp.MoodAnalyser", "MoodAnalyser", "SAD");
-            expected.Equals(obj);
-            //Assert.AreEqual(expected,obj);
+            }
+            catch (MoodAnalyserCustomException ex)
+            {
+                throw new System.Exception(ex.Message);
+            }
+            actual.Equals(expected);
+        }
+        //Invalid case
+        [TestMethod]
+        public void Reflection_Return_Parameterized_Class_Invalid()
+        {
+            string message = "I am in happy mood";
+            MoodAnalyser expected = new MoodAnalyser(message);
+            object actual = null;
+            try
+            {
+                MoodAnalyserFactory f = new MoodAnalyserFactory();
+                actual = f.CreateMoodAnalyseUsingParameterisedConstructor("MoodAnalyserApp.MoodAnalyser", "MoodAnalyser", message);
+
+            }
+            catch (MoodAnalyserCustomException actual1)
+            {
+                Assert.AreEqual(expected, actual1.Message);
+            }
+        }
+        /// <summary>
+        /// UC6-Using Reflection-Invoke Method
+        /// </summary>
+        [TestMethod]
+        public void Reflection_Return_Method()
+        {
+            string expected = "HAPPY";
+            MoodAnalyserFactory f = new MoodAnalyserFactory();
+            string actual = f.InvokeAnalyserMethod("HAPPY", "AnalyseMood");
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        public void Reflection_Return_Invalid_Method()
+        {
+            string expected = "HAPPY";
+            MoodAnalyserFactory f = new MoodAnalyserFactory();
+            string actual = f.InvokeAnalyserMethod("HAPPY", "Analyse");
+
+            Assert.AreEqual(expected, actual);
         }
     }
 }
