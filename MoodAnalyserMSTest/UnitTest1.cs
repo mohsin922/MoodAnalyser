@@ -6,22 +6,24 @@ namespace MoodAnalyserMSTest
     [TestClass]
     public class UnitTest1
     {
+        /// <summary>
+        /// TC 1.2 & 2.1: Given? I am in HAPPY Mood? and null message Should return HAPPY
+        /// </summary>
         [TestMethod]
-        public void GivenSadMoodShouldReturnSad()
+        //[DataRow("I am in HAPPY Mood")]
+        [DataRow(null)]
+        public void GivenHAPPYMoodShouldReturnHAPPY(string message)
         {
             //Arrange
-            string expected = "SAD"; 
-            string message = "I am in Sad Mood";
-            MoodAnalyser moodAnalyse = new MoodAnalyser(message); //Creating instance/object of the class.
-
+            string expected = "HAPPY";
+            MoodAnalyser moodAnalyse = new MoodAnalyser(message);
 
             //Act
-            string mood = moodAnalyse.AnalyseMood();    
+            string mood = moodAnalyse.AnalyseMood();
 
-            //Assert
-            Assert.AreEqual(expected, mood);     
-
-
+            //Asert
+            Assert.AreEqual(expected, mood);
         }
+
     }
 }
