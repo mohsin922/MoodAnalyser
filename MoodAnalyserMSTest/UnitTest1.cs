@@ -56,5 +56,18 @@ namespace MoodAnalyserMSTest
             expected.Equals(obj);
             //Assert.AreEqual(Expected,obj);
         }
+        ///<summary>
+        ///TC 5.1: Given MoodAnalyse Class Name Should Return MoodAnalyser Object.
+        /// </summary>
+        [TestMethod]
+        public void GivenMoodAnalyseClassName_ShouldReturnMoodAnalyserObject_UsingParameterisedConstructor()
+        {
+
+            object expected = new MoodAnalyser("HAPPY");
+            object obj = MoodAnalyserFactory.CreateMoodAnalyseUsingParameterisedConstructor("MoodAnalyserApp.MoodAnalyser", "MoodAnalyser", "SAD");
+            expected.Equals(obj);
+            //Assert.AreEqual(expected,obj);
+        }
     }
 }
+    
