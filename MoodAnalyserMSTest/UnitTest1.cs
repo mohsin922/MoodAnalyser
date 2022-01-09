@@ -156,6 +156,15 @@ namespace MoodAnalyserMSTest
 
             Assert.AreEqual(expected, actual);
         }
+        //TestCase 7.1
+
+        [TestMethod]
+        public void Given_HAPPYMessag_WithReflector_should_ReturnHAPPY()
+        {
+            string result = MoodAnalyserFactory.Field("HAPPY", "message");
+            Assert.AreEqual("HAPPY", result);
+        }
+
     }
 }
     
